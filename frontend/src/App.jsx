@@ -15,7 +15,7 @@ import Explore from "./pages/explore/Explore.jsx";
 import PageNotFound from "./pages/404/PageNotFound.jsx";
 import VendorSignIn from "./pages/login/VendorLogin.jsx";
 import VendorsSignup from "./pages/SignUp/VendorSignUp.jsx";
-import AdminSignIn from "./pages/login/AdminLogin.jsx";
+import AdminLogin from "./pages/login/AdminLogin.jsx";
 import Profile from "./pages/profile/VendorProfile.jsx";
 import UserSignUp from "./pages/SignUp/UserSignUp.jsx";
 import AdminHome from "./pages/admin/adminHome/AdminHome";
@@ -62,7 +62,7 @@ function App() {
         <Route path="/userSignin" element={<UserSignin />} />
         <Route path="/vendorSignIn" element={<VendorSignIn />} />
         <Route path="/vendorSignUp" element={<VendorsSignup />} />
-        <Route path="/adminSignIn" element={<AdminSignIn />} />
+        <Route path="/adminSignIn" element={<AdminLogin />} />
         <Route path="/checkoutSuccess" element={<CheckoutSuccess/>} />
         <Route path="/checkoutFailure" element={<CheckoutFailure/>} />
         <Route path="/vendor/:id" element={<Details />} />

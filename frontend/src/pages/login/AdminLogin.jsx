@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setCurrentUser } from '../../store/homeSlice.js'
 
 
-const AdminSignIn = () => {
+const AdminLogin = () => {
    
   const [formData, setFormData] = useState({})
   const { currentUser }=useSelector((state)=> state.home)
@@ -71,4 +71,4 @@ const dispatch=useDispatch()
     </div>
   )
 }
-export default AdminSignIn
+export default AdminLogin
