@@ -1,0 +1,358 @@
+.updateMain{
+    width: 100%;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4rem;
+    padding-top: 60px;
+    // background-color: aqua;
+    .topSection{
+        display: flex;
+        justify-content: space-between;
+       
+        height: 40px;
+        margin-top: 0%;
+        padding: 5px;
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+        gap: 1rem;
+        .topButtons{
+            background-color: rgba(226, 93, 35, 0.712);
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            height: 40px;
+            font-size: large;
+            color: aliceblue;
+            cursor: pointer;
+        }
+    }
+    .h1{
+        font-size: xx-large;
+        font-weight: 600;
+        text-align: center;
+        margin-top: 1rem; /* 28px */
+        margin-bottom: -2rem;
+       
+        color: rgb(231, 220, 205);
+       
+    }
+    .mainSection{
+        display: flex;
+        height: 560px;
+        .left{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 40%;
+        border-style: double;
+        border-color: rgb(251, 246, 244);
+        border-radius: 30px;
+        margin-left: 2rem;
+        gap: 4rem;
+        margin-right: -2rem;
+           .left-text{
+            color: rgb(248, 248, 248);
+            margin-top: -35px;
+           }
+           .displayPicture{
+            height: 6rem;
+            width: 6rem;
+            border-radius: 3rem;
+            object-fit: cover;
+            background-color: aqua;
+           }
+           .thumbnail{
+            height: 15rem;
+            width: 9rem;
+            background-color: aqua;
+            object-fit: cover;
+           }
+        }
+        .right{
+        width: 60%;
+         padding: 1rem;
+        .form{
+            display: flex;
+            // flex-direction: column;
+            // background-color: blue;
+            gap: 12px;
+            width: 100%;
+            // height: 1000px;
+            // background-color: aqua;
+            .layer{
+                display: flex;
+                align-items: center;
+                width: 50%;
+                // height: 30px;
+                gap: .5rem;
+                .formInput{
+                 width: 100%;
+                 height: 30px;
+                 border-radius: 15px;
+                 padding-left: 1rem;
+                }
+                .labelInput{
+                  color: bisque;
+                  width: 100%;
+                }
+            }
+            .formButton{
+                background-color: rgb(9, 21, 21); 
+                color: white;
+                padding: 0.75rem;
+                width: 9rem;
+                border-radius: 2rem;
+                border-style: ridge;
+                margin-top: 2rem;
+                 
+            }
+        }
+        
+        }
+        
+    }
+    
+}
+.formOptions{
+    display: flex;
+    justify-content: space-between;
+    .formOptionTitle{
+        color: chocolate;
+        margin: 1rem;
+    }
+}
+// .coveringDiv{
+//     display: flex;
+//     background-color: aquamarine;
+//     align-content: center;
+//     height: 1000px;
+//     & > .contentWrapper{
+//         background-color: blue;
+//         // margin-top: 20%;
+//     }
+// }
+
+
+// .profileImage{
+//         height: 10rem;
+//         width: 10rem;
+//         cursor: pointer;
+//         object-fit: cover;
+//         align-self: center;
+//         // margin-top: 0.5rem;
+//         border-radius: 50%;
+// }
+//     .formInput{
+//         background-color: rgb(62, 62, 62);
+//         border-radius: 10px;
+//         padding: 0.75rem;
+//     }
+//     .formButton{
+//         background-color: rgb(32, 33, 33); 
+//         color: white;
+//         padding: 0.75rem;
+
+//      }
+//      .formOptionTitle{
+//         cursor: pointer;
+//         color: rgb(222, 49, 49);
+//     }
+//     .formOptions{
+//         display: flex;
+//         justify-content: space-between;
+//         margin-top: 1.25rem;
+        
+//     }
+//    .updateMain{
+    
+//     padding: 0.75rem;
+//     max-width: auto;
+//     margin-left: auto;
+//     margin-right: auto;
+    
+    
+        
+        
+//     }
+    
+//     .formOptionText{
+//         margin-top: 1.25rem;
+//         color: rgb(222, 49, 49);    
+//     }
+.mainSecond{
+    width: 100%;
+    .facility{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        
+        .facilities{
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            align-items: center;
+
+             .facilityList{
+                display: flex;
+                height: 100px;
+                width: 80%;
+                // background-color: aqua;
+                align-items: center;
+                border-style: dashed;
+                border-color: azure;
+                margin: 3px;
+                
+                .facilityTabs{
+                    width: 32%;
+                    margin-left: 1%;
+                    margin-right: 1%;
+                    color: aliceblue;
+                    .facilityImage{
+                        height: 80px;
+
+                    }
+                }
+             }
+        }
+        .facilityForm{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            .facility-upload-section{
+                
+                .facilityInputTitle{
+                  margin-left: 15px;
+                  margin-right: 15px;
+                }
+                .facilityInputDescription{
+                    margin-left: 15px;
+                    margin-right: 15px;
+
+                }
+                
+               
+                .no_image{
+                  display: none;
+                }
+               
+            }
+            .facilityButton{
+
+            }
+        }
+    }
+}
+.subHeader{
+    color: rgb(232, 237, 242);
+  }
+  .facilityButton{
+    color: antiquewhite;
+    margin: 10px;
+    padding: 5px;
+    font-weight: 600;
+    border-radius: 10px;
+    border-style: inherit;
+    background-color: rgb(76, 75, 74);
+    }
+    .input-label{
+        color: rgb(255, 255, 255);
+    }
+
+    .facilityHeader{
+        display: flex;
+        height: 100px;
+        width: 80%;
+        background-color: rgb(39, 42, 42);
+        align-items: center;
+        
+        .facilityHeading{
+            width: 32%;
+            margin-left: 1%;
+            margin-right: 1%;
+            .header{
+            color: aliceblue;
+            z-index: 6;
+            }
+        }
+     }
+     .addFacilityImage{
+        height: 50px;
+        width: 50px;
+        }
+
+        .mainThird{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            .slots{
+                width: 40%;
+                form{
+                    display: flex;
+                    flex-direction: column;
+                    // align-items: center;
+                   
+                    button{
+                        width: 20%;
+                        align-self: center;
+                        margin: 1.75rem;
+                        height: 35px;
+                        border-radius: 25px;
+                    }
+                }
+            }
+        }
+
+        .prevContainer{
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 2rem;
+            overflow-y: scroll;
+            position: relative;
+           
+            .prevHeadings{
+              height: 55px;
+              background-color: rgb(168, 71, 7);
+              display: flex;
+              border-color: aliceblue;
+              border-style: double;
+              justify-content: space-between;
+            //   position: absolute;
+              .prevHead{
+                text-align: center;
+                align-self: center;
+                width: 16%;
+                color: white;
+              }
+            }
+            .prevBody{
+                display: flex;
+                justify-content: space-between;
+                margin-top: .5rem;
+                height: 50px;
+                margin-bottom: 0.5rem;
+              .prevValue{
+                width: 16%;
+                align-self: center;
+                text-align: center;
+                border-color: rgb(247, 143, 8);
+                border-style: groove;
+                padding: 1rem;
+                color: rgb(254, 250, 247);
+                overflow: hidden;
+
+              }
+            }
+        }
+
+
+    

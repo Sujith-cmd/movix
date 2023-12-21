@@ -1,0 +1,57 @@
+@import "../../mixins.scss";
+
+.form{
+    margin-top: 30px;
+    height: 500px;
+    background-color: inherit;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .form-content{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .form-input{
+              margin:10px;
+              width: 22rem;
+              height: 2rem;
+              border-radius: 10px;
+              border: none;
+              padding-left: 10px;
+        }
+        .form-button{
+            margin:10px;
+            width: 5rem;
+            height: 2rem;
+            border-radius: 10px;
+            border: none;
+            padding-left: 10px;
+            background-color: rgba(239, 229, 229, 0.446);
+            font-weight: 600;
+        }
+    }
+}
+.homePage{
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     align-items: center;
+    //  position: relative;
+    .bottom-links{
+        display: flex;
+        margin-bottom: 20px;
+        .bottom-link-p{
+            color: aliceblue;
+        }
+        .bottom-link-signup{
+            margin-left: 20px;
+            color: aliceblue;
+            font-weight: 700;
+        }
+
+    }
+}
+.form-heading{
+    color: aliceblue;
+}

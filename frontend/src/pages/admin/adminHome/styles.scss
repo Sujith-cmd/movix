@@ -1,0 +1,157 @@
+@import "../../../mixins.scss";
+.pageHeader{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 45%;
+    margin-top: 2%;
+    
+
+}
+.pageTitle{
+    
+    width: 6rem;
+    
+   
+}
+.map{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    background-color: rgb(191, 159, 134);
+}
+.bar{
+    height: 3px;
+    width: 100%;
+    background-color: coral;
+}
+.slno{
+width: 3rem;
+display: flex;
+justify-content: center;
+}
+.username{
+    width: 8rem;
+    display: flex;
+    justify-content: center;
+}
+.email{
+    width: 15rem;
+    display: flex;
+    justify-content: center;}
+.edit{
+    width: 5rem;
+    display: flex;
+    justify-content: center;
+}
+.signout{
+    width: 90%;
+    display: flex;
+    justify-content: end;
+
+}
+.app{
+    display: flex;
+    flex-direction: column;
+    width: 78.75vw;
+    // height: 100vh;
+
+}
+
+.appHeader{
+height: 70px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 4px;
+border-bottom: 1px solid rgba(0,0,0,0.15);
+background-color: rgb(242, 187, 8);
+
+}
+.appFooter{
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px;
+    border-bottom: 1px solid rgba(0,0,0,0.15);
+}
+.sideMenu{
+width: 20%;
+background-color: #fff;
+display: flex;
+flex-direction: column;
+justify-content: center;
+gap: 3rem;
+max-height: 100%;
+}
+.pageContent{
+    width: 80%;
+    // background-color: #7c0f0f;
+    // max-height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    overflow-y: scroll;
+}
+.sideMenuAndPageContent{
+    display: flex;
+    flex: 1;
+    gap: 2rem;
+    max-height:90vh ;
+    overflow-y: scroll;
+}
+
+.dashboardWrapper{
+
+    width: auto;
+    height: auto;
+    // background-color: aqua;
+    display: flex;
+}
+
+.prevContainer{
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+}
+    .prevHeadings{
+      height: 55px;
+      background-color: rgb(168, 71, 7);
+      display: flex;
+      border-color: aliceblue;
+      border-style: double;
+      justify-content: space-between;
+      .prevHead{
+        text-align: center;
+        align-self: center;
+        width: 16%;
+        color: white;
+      }
+    }
+    .prevBody{
+        display: flex;
+        justify-content: space-between;
+        margin-top: .5rem;
+        height: 50px;
+        margin-bottom: 0.5rem;
+      .prevValue{
+        width: 16%;
+        align-self: center;
+        text-align: center;
+        border-color: rgb(247, 143, 8);
+        border-style: groove;
+        padding: 1rem;
+        color: rgb(254, 250, 247);
+        overflow: hidden;
+
+      }
+    }
+
+
+
+.mainSection{
+    display: flex;
+    // height: 560px;
+    
+}

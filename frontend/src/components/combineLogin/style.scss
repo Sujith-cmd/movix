@@ -1,0 +1,49 @@
+@import "../../mixins.scss";
+
+.combineLogin {
+    width: 80%;
+    height: auto;
+   
+    display: flex; /* Add this line if you want to use flexbox properties */
+    align-items: center; /* This will work if the display property is set to flex */
+    margin: auto;
+    border-radius: 20px;
+    border: 3px solid;
+
+    border-color: bisque;
+}
+.content-block{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    background-color: rgba(32, 32, 70, 0.497);
+   
+}
+
+.single-content-image{
+    height: 40px;
+}
+.single-content-text{
+    font-family: sans-serif;
+    font-weight: 500;
+    width: 100%;
+    border-radius: 5px;
+    height: 25px;
+    color: white;
+    padding: 2%;
+    background-color: rgb(112, 112, 144);
+    margin: 10px;
+}
+.single-content-button{
+    width: 6rem;
+    height: 2rem;
+    border-radius: 10px;
+    font-weight: 500;
+    width: 50 px;
+    color: white;
+    background-color: rgb(21, 70, 232);
+    
+}

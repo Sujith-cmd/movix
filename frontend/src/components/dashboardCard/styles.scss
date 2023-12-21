@@ -1,0 +1,43 @@
+.dashboardCard{
+    margin: 2rem;
+    display: flex;
+    // flex-direction: column;   
+    width: 250px;
+   height: 150px;
+   align-items: center;
+//    gap:2rem;
+background-color: #9e9b9b;
+.dashCardSymbol{
+    width: 30%;
+    border-style: solid;
+     background-color: #46415d;
+     height: 50px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     border-radius: 25px;
+     margin-left: 5px;
+     margin-right: 5px;
+    }
+    .dashCardRight{
+        width: 70%;
+        height: 150px;
+        .dashHead{
+            color: aliceblue;
+          background-color: #1a1919;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        height: 30%;
+    }
+    .dashNumb{
+          height: 70%;
+          background-color: darkolivegreen;
+          color: rgb(246, 239, 239);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: xx-large;
+      }
+     }
+   }

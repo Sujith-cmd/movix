@@ -1,0 +1,207 @@
+.timeInput{
+    height: 30px;
+    background-color: aqua;
+    
+}
+.para{
+    height: 50px;
+    background-color: aqua;
+}
+.detail{
+    
+.contentWrapper{
+    // background-color: rgba(204, 204, 220, 0.562);
+    background-color: rgba(39, 39, 104, 0.562);
+    padding: 20px;
+    padding-top: 2%;
+    border-radius: 10px;
+    margin-bottom: 5px;
+ 
+    
+}
+
+.bookingWindow{
+    width: 100%;
+    
+    display: flex;
+    
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    
+    .bookingForm{
+        display: flex;
+        flex-direction: column;
+        width: 300px;
+        align-items: center;
+        .requiredSeats{
+            // background-color: aqua;
+            margin: 2rem;
+            display: flex;
+            flex-direction: row;
+            min-width: 300px;
+            justify-content: space-between;
+            .requiredSeatsInput{
+                color: white;
+            }
+        }
+     .dateField{
+        display: flex;
+        .dateLabel{
+            color: rgb(240, 230, 230);
+            margin: 10px;
+        }
+        .dateInput{
+            padding-left: 1rem;
+            padding-right: 1rem;
+            border-radius: 1rem;
+        }
+        
+     }
+     .bookingStarted{
+        
+        .mapInput{
+            margin: 5px;
+           display: flex;
+           align-items: center;
+           gap: 10px;
+           .labelInput{
+            color: rgb(216, 216, 230);
+           }
+         }
+         
+         .bookingButton{
+            padding: 3px;
+            width:100px;
+            border-radius: 15px;
+         }
+     }
+     
+
+    }
+}
+}
+h3{
+    // background-    color: aliceblue;
+    // align-self: center;
+    color: aliceblue;
+    margin: 5px;
+}
+.currentBooking{
+    width: 250px;
+    margin: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .books{
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin: .5rem;
+    }
+}
+.bookName,.bookSlot{
+  color: aliceblue;
+}
+
+.paymentInput{
+margin-right: 1rem;
+}
+.paymentLabel{
+    color: aliceblue;
+    margin-right: 1rem;
+}
+.paymentDiv{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+
+    .mainPayment{
+        
+        display: flex;
+        gap: 1rem;
+        flex-direction: column;
+        align-items: center;
+        width: 40%;
+    }
+    .cardPay{
+    background-color: aqua;
+        width: 60%;
+        margin-top: .75rem;
+        z-index: 100;
+    
+}
+}
+// .cardPayment{
+//     width: 500px;
+// }
+.mapInput2{
+    margin: 5px;
+//    display: flex;
+//    align-items: center;
+text-align: right;
+  
+//    gap: 10px;
+//    .labelInput{
+//     color: rgb(216, 216, 230);
+//    }
+ }
+ .mapInput3{
+    margin: 5px;
+    text-align: left;
+
+//    gap: 10px;
+//    .labelInput{
+//     color: rgb(216, 216, 230);
+//    }
+ }
+ .chat-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1.5rem;
+    height: 200px;
+    overflow: scroll;
+    // border-color: aliceblue;
+    // border-style: groove;
+
+    // background-color: #24e4f0;
+}
+
+.Omessage {
+
+
+  color: white;
+  padding: 0.7rem;
+  background: linear-gradient(98.63deg, #cee6e8 0%, #063a76 100%);
+
+  border-radius: 1rem 1rem 1rem 0;
+  min-width: 28rem;
+//   width: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-self: flex-start;
+  gap: 0.5rem;
+}
+     
+.Omessage>span:nth-child(2){
+    font-size: 0.7rem;
+    color: var(--textColor);
+    // color: aliceblue;
+    align-self: end;
+}
+
+.Oown {
+  align-self: flex-end;
+  border-radius: 1rem 1rem 0 1rem;
+  background: linear-gradient(98.63deg, #cee6e8 0%, #063a76 100%);
+}
+.rated{
+    background-color: blue !important;
+}
+.notRated{
+    background-color: white;
+}
