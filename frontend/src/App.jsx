@@ -15,7 +15,7 @@ import Explore from "./pages/explore/Explore.jsx";
 import PageNotFound from "./pages/404/PageNotFound.jsx";
 import VendorSignIn from "./pages/login/VendorLogin.jsx";
 import VendorsSignup from "./pages/SignUp/VendorSignUp.jsx";
-import AdminSignIn from "./pages/login/adminLogin.jsx";
+import AdminSignIn from "./pages/login/AdminLogin.jsx";
 import Profile from "./pages/profile/VendorProfile.jsx";
 import UserSignUp from "./pages/SignUp/UserSignUp.jsx";
 import AdminHome from "./pages/admin/adminHome/AdminHome";
