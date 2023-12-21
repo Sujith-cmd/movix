@@ -4,7 +4,7 @@ import "./style.scss";
 
 import HeroBanner from "./heroBanner/HeroBanner";
 import Trending from "./trending/Trending";
-import CombineLogin from "../../components/combineLogin/combineLogin";
+import CombineLogin from "../../components/combineLogin/CombineLogin.jsx";
 
 
 
