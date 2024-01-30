@@ -17,6 +17,11 @@ const adminSchema= mongoose.Schema({
     adminPassword: {
         type: String,
         required:true
+    },
+    
+    account_Bal: {
+        type: Number,
+        default:0
     }
     
 },{timestamps:true})

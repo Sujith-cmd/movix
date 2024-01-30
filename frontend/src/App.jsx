@@ -53,10 +53,7 @@ function App() {
             <Route path="/userProfile" element={<UserProfile />} />
             </Route>
             
-            {/* <Route element={<PrivateRouteViewer />} >
-            <Route path="/userProfile" element={<UserProfile />} />
-            </Route>
-             */}
+            
         
         <Route path="/userSignup" element={<UserSignUp />} />
         <Route path="/userSignin" element={<UserSignin />} />

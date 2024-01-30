@@ -5,6 +5,7 @@ import ContentWrapper from "../../../components/contentWrapper/ContentWrapper";
 import SwitchTabs from "../../../components/switchTabs/SwitchTabs";
 
 import useFetch, { useFetchGet } from "../../../hooks/useFetch";
+import { axiosIn } from "../../../utils/api";
 
 const Trending = () => {
     const [endpoint, setEndpoint] = useState("Theatre");
@@ -17,13 +18,16 @@ const Trending = () => {
    
     const initial = async () => {
         try {
-            
-            const res= await fetch(`http://localhost:5000/api/vendors/trending/${endpoint}`)
-            const datas=await res.json();
-            console.log("theatre datas");
-            console.log(datas);
-            setLoading(false)
-            setData(datas)
+            axiosIn.get(`/vendors/trending/${endpoint}`).then((resp)=>{
+                console.log("remove facility resp");
+                console.log(resp);
+                
+                setData(resp.data)
+              }).catch((err)=>{
+                console.log("remove facility error");
+                console.log(err);
+              })
+           
         } catch (error) {
             setLoading(true)
         }

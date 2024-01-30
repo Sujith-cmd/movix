@@ -76,7 +76,7 @@ const vendorSchema= mongoose.Schema({
         quantity:{type:String,default:null},
         price:{type:Number,default:null}
     }],
-    price:{type:Number,default:0},
+    price:{type:Number,default:1},
     rating:{
         type:Object,default:{}
     },
@@ -84,7 +84,8 @@ const vendorSchema= mongoose.Schema({
     bookings : [{
         type:Object
     }],
-    reviews:{type:Object,default:{}   }
+    reviews:{type:Object,default:{}   },
+    account_Bal:{type:Number,default:0}
 
 },{timestamps:true})
 

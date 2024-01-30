@@ -4,19 +4,24 @@ import axios from 'axios'
 
 import { useDispatch, useSelector } from 'react-redux'
 import "../SignUp/styles.scss"
-import { fetchDataFromBackPost } from '../../utils/api.js'
-
+import { axiosIn, fetchDataFromBackPost } from '../../utils/api.js'
+import validator from 'validator'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const VendorSignup = () => {
   const usernameContent=useRef()
   const emailContent=useRef()
   const passwordContent=useRef()
   const isTheatreContent=useRef()
   const [formData, setFormData] = useState({})
+  const [confirmPass, setConfirmPass] = useState("")
   const { url }=useSelector((state)=> state.home)
   const dispatch=useDispatch()
   const navigate=useNavigate()
   const handleChange = (e) => {
     console.log(formData);
+    console.log("");
+    console.log(isTheatreContent.value);
     if(e.target.name=="isTheatre"){
       if(e.target.value=="true"){
 
@@ -33,6 +38,15 @@ const VendorSignup = () => {
   }
   const handleSubmit = async (e) =>{
     e.preventDefault();
+    console.log("formdataa");
+    console.log(formData);
+
+    if((formData.email==undefined&&formData.password==undefined&&formData.username==undefined)||(formData.email==null&&formData.password==null&&formData.username==null)){
+      console.log("total error");
+       toast("please fill the form correctly")
+    }else{
+      if(formData.username!==undefined&&formData.username.trim()!==""){
+    if(formData.email!==undefined&&validator.isEmail(formData?.email?.trim())){
     // setFormData({
     //   username: usernameContent.current.value,
     //   email: emailContent.current.value,
@@ -40,18 +54,35 @@ const VendorSignup = () => {
     //   isTheatre:isTheatreContent.current.value
     // });
     //  console.log(formData);
+    if(formData?.password==confirmPass && confirmPass!==""){
+      if(formData?.password?.length<6){
+        return toast("password should contain atleast 6 letters")
+      }
+      if(formData?.isTheatre!==undefined){
     try {
     //   dispatch(signInStart())
-      const res= await fetch('http://localhost:5000/api/vendors/signup',{
-        method: 'POST',
-        headers:{
-          'Content-Type': 'application/json',
-        },
-        body:JSON.stringify(formData)
-      })
-          let data=await res.json();
-          console.log(data);
-          navigate('/vendorSignIn')
+    axiosIn.post("/vendors/signup",formData).then((response) => {
+     
+      console.log("vendor response");
+      console.log(response);
+        navigate('/vendorSignIn') 
+      
+   }).catch((error)=>{
+  
+     console.log("error in signup");
+     const err=error.response.data.msg;
+     toast(err)
+   })
+      // const res= await fetch('http://localhost:5000/api/vendors/signup',{
+      //   method: 'POST',
+      //   headers:{
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body:JSON.stringify(formData)
+      // })
+      //     let data=await res.json();
+      //     console.log(data);
+      //     navigate('/vendorSignIn')
 
       // fetchDataFromBackPost('http://localhost:5000/api/vendors/signup', 
       //   formData
@@ -78,19 +109,33 @@ const VendorSignup = () => {
     console.log(error);
       
     }
-   
+  }else{
+    toast("select your station type")
+  }
+  }else{
+    toast("passwords not matching or invalid")
+  }
+  }else{
+   toast("Email is invalid")
+  }
+}else{
+   toast("Enter valid username")
+}
+}
   };
     
   
   return (
      <div className="homePage">      
               <form className='form' onSubmit={handleSubmit} >
-                 <h1 className='form-heading'>Sign Up</h1>
+                 <h1 className='form-heading'>Vendor Sign Up</h1>
                  <div className='form-content'>
-
+                 <ToastContainer />
                      <input ref={usernameContent} className='form-input' type="text" placeholder='Enter username' name='username' onChange={handleChange}/>
                      <input ref={emailContent} className='form-input' type="email" placeholder='Enter email' name='email' onChange={handleChange}/>
                      <input ref={passwordContent} type="password" className='form-input' placeholder='Enter password' name='password'onChange={handleChange}/>
+                     <input type="password" className='form-input' placeholder='Enter password' name='password2' onChange={(e)=>setConfirmPass(e.target.value)}/>
+
                      <span className='radio'>
                       <span>
                      <label className='label' htmlFor='theatre'>Theatre</label>
@@ -103,7 +148,7 @@ const VendorSignup = () => {
 
                       </span>
                      </span>
-                     <button className='form-button' >SignUp</button>
+                     <button className='form-button' style={{color:"white",cursor:"pointer"}}>SignUp</button>
                   </div>
                 
               </form>

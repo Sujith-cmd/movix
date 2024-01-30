@@ -4,6 +4,8 @@ export const getUser=(id)=> API.get(`/users/${id}`)
 export const getTheatre=(id)=> API.get(`/vendors/getDetails/${id}`)
 export const chatCheck=(fId,sId)=> API.get(`/chat/find/${fId}/${sId}`)
 export const createChat=(data)=> API.post(`/chat/`,data)
+export const changestatus=(chatId)=> API.post(`/message/changeMsgStatus/${chatId}`)
+export const update=(membero,membert)=> API.post(`/chat/change/change/${membero}/${membert}`)
 
 
 export const userAPI= axios.create({baseURL: 'http://localhost:5000/api/users'})

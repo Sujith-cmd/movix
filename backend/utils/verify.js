@@ -1,8 +1,11 @@
 import jwt from "jsonwebtoken";
-import { errorHandler } from "./error.js";
+import { errorHandler, tkn } from "./error.js";
 import Cookies from "js-cookie";
 
 export const verifyToken = (req, res, next) => {
+    console.log("tkn");
+    console.log(tkn);
+    if(!tkn){next()}else{
   const token = req.header("Authorization");
   // console.log("Access Token:", token);
   // const token = req.cookies.access_token;
@@ -15,5 +18,6 @@ export const verifyToken = (req, res, next) => {
     // console.log(user);
     req.user = user;
     next();
-  });
+  });}
+
 };

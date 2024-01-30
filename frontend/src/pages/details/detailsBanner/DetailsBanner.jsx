@@ -22,12 +22,15 @@ const DetailsBanner = ({ id,vendorData}) => {
     // const { id } = useParams();
    
    const [data, setData] = useState([])
+   const [genresData, setGenreData] = useState([])
    const [loading, setLoading] = useState(true)
     
     const { url } = useSelector((state) => state.home);
 
    
 useEffect(() => {
+    // console.log("vendorDaaata");
+    // console.log(vendorData);
     if(vendorData){
 
         setData(vendorData)
@@ -35,7 +38,18 @@ useEffect(() => {
     }else{
         setLoading(true)
     }
+    const genreDet=vendorData?.features?.map((m)=>{
+        return m.featureName
+    })
+    // console.log("genreData");
+    // console.log(genreDet);
+    setGenreData(genreDet)
 }, [vendorData])
+   
+useEffect(() => {
+//    console.log("data");
+//    console.log(data);
+}, [data])
     
 
 
@@ -74,7 +88,7 @@ useEffect(() => {
                                             {data.isTheatre? "Home Theatre":"Game Station"}
                                         </div>
 
-                                        <Genres data={["4k TV","Dolby Atmos","Central AC"]} />
+                                        <Genres data={genresData||["4k TV","Dolby Atmos","Central AC"]} />
 
                                         <div className="row">
                                             <CircleRating
@@ -88,7 +102,8 @@ useEffect(() => {
                                                 Overview
                                             </div>
                                             <div className="description">
-                                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit rem voluptatibus deserunt error vero delectus nisi, fugiat, velit est placeat laborum autem earum explicabo impedit iure. Cum alias aliquam qui dolorem, quae reru!
+                                                {data?.address?.remark||"Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit rem voluptatibus deserunt error vero delectus nisi, fugiat, velit est placeat laborum autem earum explicabo impedit iure. Cum alias aliquam qui dolorem, quae reru!"}
+                                                {/* Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit rem voluptatibus deserunt error vero delectus nisi, fugiat, velit est placeat laborum autem earum explicabo impedit iure. Cum alias aliquam qui dolorem, quae reru! */}
                                             </div>
                                         </div>
 
@@ -107,10 +122,10 @@ useEffect(() => {
                                            
                                                 <div className="infoItem">
                                                     <span className="text bold">
-                                                        Runtime:{" "}
+                                                        Available Seats:{" "}
                                                     </span>
                                                     <span className="text">
-                                                        6 hours
+                                                        {vendorData?.seatingCapacity}
                                                     </span>
                                                 </div>
                                             
@@ -122,7 +137,7 @@ useEffect(() => {
                                                     Address:{" "}
                                                 </span>
                                                 <span className="text">
-                                                    AddressLine1, AddressLine2, City
+                                                    {vendorData?.address?.addresslineOne},{vendorData?.address?.addresslineTwo},{vendorData?.address?.district},{vendorData?.address?.state}
                                                 </span>
                                             </div>
                                         

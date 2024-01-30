@@ -2,15 +2,19 @@
     margin: 2rem;
     display: flex;
     // flex-direction: column;   
+    border-radius: 20px;
+    overflow: hidden;
     width: 250px;
    height: 150px;
    align-items: center;
 //    gap:2rem;
-background-color: #9e9b9b;
+background-color: #5b44be;
+// background-color: #8d8b96;
 .dashCardSymbol{
     width: 30%;
-    border-style: solid;
-     background-color: #46415d;
+    // border-style: solid;
+
+     background-color: #dedce6;
      height: 50px;
      display: flex;
      align-items: center;
@@ -23,17 +27,23 @@ background-color: #9e9b9b;
         width: 70%;
         height: 150px;
         .dashHead{
+          font-weight: 600;
+          font-size: 14px;
             color: aliceblue;
-          background-color: #1a1919;
+          // background-color:  #8c86a3;
+          background-color:  #5b44be;
           display: flex;
-          justify-content: center;
+          justify-content: flex-start;
           align-items: center;
         height: 30%;
+        // padding-left: -80px;
+        margin-left: -30px;
     }
     .dashNumb{
           height: 70%;
-          background-color: darkolivegreen;
-          color: rgb(246, 239, 239);
+          background-color: rgb(36, 26, 96);
+          border-radius: 10px;
+          color: rgb(255, 241, 241);
           display: flex;
           justify-content: center;
           align-items: center;

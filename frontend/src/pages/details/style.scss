@@ -125,7 +125,13 @@ margin-right: 1rem;
         gap: 1rem;
         flex-direction: column;
         align-items: center;
-        width: 40%;
+        width: 100%;
+        // background-color: #7b7d7f;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        border-style: double;
+        border-color: #cee6e8;
     }
     .cardPay{
     background-color: aqua;
@@ -163,8 +169,9 @@ text-align: right;
     flex-direction: column;
     gap: 0.5rem;
     padding: 1.5rem;
-    height: 200px;
-    overflow: scroll;
+    max-height: 300px;
+    overflow-y: scroll;
+    // background-color: aqua;
     // border-color: aliceblue;
     // border-style: groove;
 
@@ -175,11 +182,15 @@ text-align: right;
 
 
   color: white;
-  padding: 0.7rem;
-  background: linear-gradient(98.63deg, #cee6e8 0%, #063a76 100%);
+  padding-left: 4rem;
+  padding-right: 4rem;
+  padding-top: .7rem;
+  padding-bottom:.7rem ;
+  background: linear-gradient(98.63deg, #000000 0%, #153b67 100%);
 
   border-radius: 1rem 1rem 1rem 0;
-  min-width: 28rem;
+  min-width: 100%;
+//   min-width: 30rem;
 //   width: fit-content;
   display: flex;
   flex-direction: column;
@@ -200,8 +211,27 @@ text-align: right;
   background: linear-gradient(98.63deg, #cee6e8 0%, #063a76 100%);
 }
 .rated{
-    background-color: blue !important;
+    background-color: orange !important;
 }
 .notRated{
     background-color: white;
+}
+
+
+.featureImage{
+    height: 40vh;
+    width: 20vw;
+    border-radius: 10%;
+    border-color: #5b7491;
+    border-width: 10px;
+    border-style: solid;
+   
+}
+.featureEat{
+    height: 15vh;
+    width: 7vw;
+    border-style: solid;
+    // border-style: ;
+    z-index: 10;
+    border-color: #000407;
 }

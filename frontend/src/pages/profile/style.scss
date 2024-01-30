@@ -7,6 +7,7 @@
     gap: 4rem;
     padding-top: 60px;
     // background-color: aqua;
+    // position: relative;
     .topSection{
         display: flex;
         justify-content: space-between;
@@ -19,6 +20,18 @@
         margin-right: auto;
         gap: 1rem;
         .topButtons{
+            background-color: rgba(226, 92, 35, 0.168);
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            height: 40px;
+            font-size: large;
+            color: aliceblue;
+            cursor: pointer;
+        }
+        .topButtonsNew{
             background-color: rgba(226, 93, 35, 0.712);
             width: 100%;
             display: flex;
@@ -35,9 +48,9 @@
         font-size: xx-large;
         font-weight: 600;
         text-align: center;
-        margin-top: 1rem; /* 28px */
+        // margin-top: 1rem; /* 28px */
         margin-bottom: -2rem;
-       
+       margin-top: 1.5rem;
         color: rgb(231, 220, 205);
        
     }
@@ -312,7 +325,7 @@
         }
 
         .prevContainer{
-            height: 500px;
+            height: 700px;
             display: flex;
             flex-direction: column;
             padding-bottom: 2rem;
@@ -354,5 +367,45 @@
             }
         }
 
+        .container {
+            display: flex;
+            justify-content: center;
+            margin-top: 4rem; // Adjust the value according to your requirements
+            // background-color: white;
+            align-items: center;
+          }
+         .pageLink{
+            background-color: white;
+            &:hover {
+                background-color: #eb6025; // hover:bg-blue-700 color code
+                // background-color: #2563eb; // hover:bg-blue-700 color code
+              }
+              &:active {
+                background-color: #1e40af; // active:bg-blue-800 color code
+              }
+           
+            color: #2d3748; // Adjust the color code for text
+            font-weight: bold;
+            padding: 0.5rem 1rem; // Adjust the padding values
+            margin: 0 0.5rem; // Adjust the margin values
+            border-radius: 0.25rem; // Adjust the border radius
+          }
+          .breakLink{
+            background-color: white;
+            color: #2d3748; // Adjust the color code for text
+            font-weight: bold;
+            padding: 0.5rem 1rem; // Adjust the padding values
+            margin: 0 0.5rem; // Adjust the margin values
+            border-radius: 0.25rem; // Adjust the border radius
+          }
 
-    
+          .myButton {
+            background-color: #34d399; // bg-cyan-400 color code
+            &:hover {
+              background-color: #60a5fa; // hover:bg-blue-300 color code
+            }
+            color: white;
+            font-weight: bold;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+          }

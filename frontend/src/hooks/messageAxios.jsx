@@ -1,13 +1,11 @@
-
-
-
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { adminAPI } from '../utils/UserRequest';
+import { messageAPI } from '../utils/UserRequest';
 
-const adminAxiosIntercepter = () => {
+const messageAxiosIntercepter = () => {
     const { token} = useSelector((state) => state.home);
+    console.log({token});
     const navigate = useNavigate();
     useEffect(() => {
       // Request interceptor
@@ -23,24 +21,24 @@ const adminAxiosIntercepter = () => {
       // Error interceptor
       const errInterceptor = (error) => {
         if (error.response && error.response.status === 401) {
-          navigate('/adminSignIn');
+          navigate('/Signin');
         }
         return Promise.reject(error);
       };
   
-      const reqInterceptorId = adminAPI.interceptors.request.use(reqInterceptor);
-      const resInterceptorId = adminAPI.interceptors.response.use(resInterceptor, errInterceptor);
+      const reqInterceptorId = messageAPI.interceptors.request.use(reqInterceptor);
+      const resInterceptorId = messageAPI.interceptors.response.use(resInterceptor, errInterceptor);
   
       // Clean up interceptors on component unmount
       return () => {
-        adminAPI.interceptors.request.eject(reqInterceptorId);
-        adminAPI.interceptors.response.eject(resInterceptorId);
+        messageAPI.interceptors.request.eject(reqInterceptorId);
+        messageAPI.interceptors.response.eject(resInterceptorId);
       };
-    }, []);
+    }, [token, navigate]);
   
-    return adminAPI
+    return messageAPI
   };
   
-  export default adminAPI;
+  export default messageAPI;
 
-export { adminAxiosIntercepter}
+export { messageAxiosIntercepter}

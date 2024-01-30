@@ -5,7 +5,8 @@ const initialState= {
     previousBookings:false,
     chats:false,
     directToChat:null,
-    counter:0
+    counter:0,
+    otp:"nott"
    
 }
  const userSlice = createSlice({
@@ -36,6 +37,10 @@ const initialState= {
         dec:(state)=>{
             state.counter=state-1
 
+        },
+        otpHelp:(state,action)=>{
+            state.otp=action.payload
+
         }
        
       
@@ -44,6 +49,6 @@ const initialState= {
 );   
 
 
-export const {getPrevious,getBasic,getChats,toChat,inc,dec} = userSlice.actions;
+export const {getPrevious,getBasic,getChats,toChat,inc,dec,otpHelp} = userSlice.actions;
 
 export default userSlice.reducer;

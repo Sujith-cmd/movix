@@ -16,7 +16,11 @@
     flex-direction: column;
     gap: 0.5rem;
     padding: 1.5rem;
-    overflow: scroll;
+    overflow-y: scroll;
+    min-height: 100%;
+    background-color: rgb(101, 99, 97);
+    border-radius: 1rem;
+    
 }
 
 .message {

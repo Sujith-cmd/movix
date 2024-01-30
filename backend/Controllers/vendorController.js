@@ -1,33 +1,55 @@
 
 import User from "../Model/Usermodel.js"
 import Vendor from "../Model/Vendormodel.js"
+import Admin from "../Model/AdminModel.js"
 import bcrypt from "bcryptjs"
 import { errorHandler } from "../utils/error.js"
 import jwt from'jsonwebtoken'
 import stripe from 'stripe';
+import crypto from 'crypto';
+import nodemailer from 'nodemailer'
 const stripeInstance = stripe('sk_test_51OFALpSB9eYCrjcG6KBzHYP0HYRw1pC5QH1u53yIAUkm6TkjstVL31Z7b1hkz86fc9yioq6DlKWJIH9ZJ8BtJiH800RnMnA1wJ');
 
 export const vendorSignup = async (req,res,next)=>{
     const {username,email,password,isTheatre} =req.body
-   
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    console.log(emailRegex.test(email))
+    if(username==undefined||username==null||username.trim()==""||email==undefined||email==null||email.trim()==""||password==undefined||password==null||isTheatre==null||isTheatre==undefined||!emailRegex.test(email)){
+      return res.status(500).json({msg:"Something went wrong"})
+     }
     try {
-        const salt= bcrypt.genSaltSync(10);
-        const hash=bcrypt.hashSync(password, salt)
-        console.log(hash);
-    const newVendor= new Vendor({
-        username,email,password:hash,isTheatre
-    })
-        const savedVendor=await newVendor.save()
-        
-        if(!savedVendor||savedVendor==undefined){
-           console.log("Error in  vendordb");
-           next(errorHandler(500,"vendor not saved"));
+        const vendor= await Vendor.findOne({email})
+        if(!vendor){
+
+
+
+            const salt= bcrypt.genSaltSync(10);
+            const hash=bcrypt.hashSync(password, salt)
+            // console.log(hash);
+        const newVendor= new Vendor({
+            username,email,password:hash,isTheatre
+        })
+            const savedVendor=await newVendor.save()
+            
+            if(!savedVendor||savedVendor==undefined){
+               console.log("Error in  vendordb");
+               return res.status(500).json({msg:"something went wrong"})
+    
+            //    next(errorHandler(500,"vendor not saved"));
+    
+            }else{
+                return res.status(200).json(savedVendor)
+            }
         }else{
-            return res.status(200).json(savedVendor)
+            
+            return res.status(401).json({msg:"Vendor email already exists" })
         }
     } catch (error) {
-        next(errorHandler(500,"somehow signup failed"));
+        // next(errorHandler(500,"somehow signup failed"));
+        return res.status(500).json({msg:"something went wrong"})
+
     }
+
     
 }
 
@@ -35,6 +57,12 @@ export const vendorSignin = async (req,res,next)=>{
     const {email,password} =req.body
     // console.log("signin req");
     // console.log(req.body);
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    console.log(emailRegex.test(email));
+    if (!emailRegex.test(email)||password==""||password==undefined) {
+      return res.status(500).json({msg:"something went wrong"})
+    }
+
     try {
         const vendor= await Vendor.findOne({email})
         // console.log(viewer);
@@ -52,15 +80,19 @@ export const vendorSignin = async (req,res,next)=>{
             const expiryDate = new Date(Date.now()+3600000)
             return res.status(200).json({rest,message:"vendor login successful",token})
            }else{
-            next(errorHandler(401,"Invalid password"))
+            // next(errorHandler(401,"Invalid password"))
+            return res.status(403).json({message:"invalid credentials"})
+
         }   
     }else{
-        next(errorHandler(401,"Invalid Credentials"))
+        // next(errorHandler(401,"Invalid Credentials"))
+        return res.status(401).json({message:"invalid user"})
     }
        
       } catch (error) {
-        // res.status(401).json({message:"login denied"})
-        next(errorHandler(401,"signin failed"))
+        console.log(error);
+        res.status(500).json({message:"something went wrong"})
+        // next(errorHandler(401,"signin failed"))
     
        
       }
@@ -116,12 +148,12 @@ export const vendorList = async (req,res)=>{
         try {
             if(type=="Theatre"){
 
-                const vendors= await Vendor.find({isTheatre:true})
+                const vendors= await Vendor.find({isTheatre:true,isAccess:"Allowed"})
                
                return res.status(200).json(vendors)
                 
             }else{
-                const vendors= await Vendor.find({isTheatre:false})
+                const vendors= await Vendor.find({isTheatre:false,isAccess:"Allowed"})
                return res.status(200).json(vendors)
                 
             }
@@ -324,9 +356,9 @@ export const allowEdit= async (req, res, next) => {
 
 
 export const prodDet= async (req,res,next)=>{
-    const _id=req.params.id
+    const id=req.params.id
     try {
-        const vendorDetails= await Vendor.findOne({_id})
+        const vendorDetails= await Vendor.findOne({_id:id})
         res.status(200).json(vendorDetails)
 }catch(err){
     res.status(403).json({mssg:"no matching id"})
@@ -359,14 +391,29 @@ export const signout = (req, res) => {
   
   export const subscribe =async (req, res) => {
     const product=req.body 
-    console.log(product);
-    const id=product.currentUser._id
-    const subscriptionDate=product.currentUser.subscription
-
-    const months=product.subAmt/50
+    // console.log("product");
+    // console.log(product);
+    // console.log("product");
+    const id=product?.data?.currentUser?._id
+    const subscriptionDate=product?.data?.currentUser?.subscription
+    console.log("subsc date");
+    console.log(typeof(subscriptionDate));
+    console.log(subscriptionDate);
+    const months=product?.data?.subAmt/50
+    // console.log("months");
+    // console.log(months);
    const newSub= addMonths(new Date(subscriptionDate),months)
     const name="subscription"
+    const upAmt=months*50
+    // console.log("upamt");
+    // console.log(upAmt);
     // This is your test secret API key.
+    // const updatedAdmin = await Admin.updateMany(
+      //   {},
+    //   { $inc: {account_Bal: product.subAmt } }
+    // );
+  //   console.log("subAdmin");
+  // console.log(updatedAdmin);
     const session = await stripeInstance.checkout.sessions.create({
      payment_method_types: ['card'], // Use 'payment_method_types' instead of 'payment_methods_types'
      line_items: [
@@ -387,22 +434,37 @@ export const signout = (req, res) => {
    });
    console.log("session");
    console.log(session);
+   if(session?.status=="open"){
 
-   const updatedUser = await Vendor.findByIdAndUpdate(
-    id,
-    {
-      $set: {
-       subscription:new Date(newSub),
-       isAccess:"Allowed"
+     const updatedUser = await Vendor.findByIdAndUpdate(
+       id,
+       {
+         $set: {
+           subscription:new Date(newSub),
+           isAccess:"Allowed"
           }
-    },
-    { new: true }
-  );
+        },
+        { new: true }
+        );
+        
+        const updatedAdmin = await Admin.findByIdAndUpdate(
+          "654a3e7db7b97933425d383c",
+          {
+            $inc:{
+              account_Bal:upAmt
+            }
+          },
+          { new: true }
+        );
 
-   res.json({id:session.id,total:session.amount_total,updatedUser});
-  };
 
-  export const putNotAllowed =async (req, res) => {
+        res.json({id:session.id,total:session.amount_total,updatedUser});
+      }
+      
+      
+    };
+    
+    export const putNotAllowed =async (req, res) => {
     const id=req.body.id
     const status="Allowed"
     const secondStatus="Not Allowed"
@@ -450,4 +512,156 @@ export const signout = (req, res) => {
       const vendors = await Vendor.find()
       res.json(vendors).status(200)
 
+  }
+
+  export const delFac =async (req, res) => {
+     const facId=req.body.facId
+     const venId=req.body.vendId
+    //  console.log("delFac");
+    //  console.log(facId);
+    //  console.log(venId);
+    //  console.log(req.body);
+     const updatedFacility = await Vendor.findByIdAndUpdate(
+        venId,
+        {
+          $pull: {
+       
+           features:{_id:facId}
+              }
+        },
+        { new: true }
+      )
+     res.json(updatedFacility).status(200)
+  }
+ 
+  export const delEat =async (req, res) => {
+     const facId=req.body.facId
+     const venId=req.body.vendId
+    //  console.log("delFac");
+    //  console.log(facId);
+    //  console.log(venId);
+    //  console.log(req.body);
+     const updatedFacility = await Vendor.findByIdAndUpdate(
+        venId,
+        {
+          $pull: {
+       
+            eatables:{_id:facId}
+              }
+        },
+        { new: true }
+      )
+     res.json(updatedFacility).status(200)
+  }
+//   export const sendOTP =async (req, res) => {
+//     const userEmail=req.body.userEmail
+//     const newUser = await User.findOne({ email });
+//     if (newUser) {
+//       const { otp, secret } = await public_controller.genarateOTP();
+//       res.cookie("id", newUser._id, { maxAge: 500000, httpOnly: true });
+//       newUser.OTP = secret
+//       newUser.save()
+//       public_controller.sendemailotp(email, otp);
+//       res.status(201).json({ message: "enter your otp" });
+//     } else {
+//       res.status(400).json({ message: 'email not exist' })
+//       console.log('no email');
+//     }
+  
+//   }
+
+const genarateOTP = async () => {
+    try {
+      const otps = Math.floor(1000 + Math.random() * 9000);
+      console.log(otps);
+      const otp = otps.toString();
+      const secret = crypto.createHash("sha256").update(otp).digest("hex");
+  
+      return { otp, secret };
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  
+  const sendemailotp = async (email, otp) => {
+    try {
+      const transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true,
+        auth: {
+          user: 'gadgetcartmailer@gmail.com',
+          pass: 'sylmlabgttnqbhqh',
+        },
+        tls: {
+          rejectUnauthorized: false
+        }
+      });
+  
+      const mailoptions = {
+        from: "gadgetcartmailer@gmail.com",
+        to: email,
+        subject: "for verification mail",
+        html: "<p>your otp is " + otp + "</p>",
+      };
+  
+      transporter.sendMail(mailoptions, (error, data) => {
+        if (error) {
+          console.log(error.message);
+        } else {
+          console.log("Email has been sent ", data.response);
+        }
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+
+export const sendOTP = async (req, res) => {
+    const email=req.body.userEmail
+    
+    const newUser = await Vendor.findOne({ email });
+    if (newUser) {
+      console.log("newuser");
+      console.log(newUser);
+      const { otp, secret } = await genarateOTP();
+      // res.cookie("id", newUser._id, { maxAge: 500000, httpOnly: true });
+      // newUser.OTP = secret
+      // newUser.save()
+      await sendemailotp(email, otp);
+      
+      res.status(200).json(otp)
+    } else {
+      res.status(400).json({ message: 'email not exist' })
+      console.log('no email');
+    }
+  }
+
+  export const forgetPass = async (req, res) => {
+    const pass=req.body.newPass
+    const email=req.body.userEmail
+    console.log("forgetttt");
+    console.log(pass);
+    console.log(email);
+    var newUser = await Vendor.findOne({ email });
+    if (newUser) {
+      // console.log(newUser);
+      if(newUser){
+        const id=newUser?.email
+        console.log("id");
+        console.log(id);
+        const salt= bcrypt.genSaltSync(10);
+        const hash= bcrypt.hashSync(pass,salt)
+        const newU = await Vendor.updateOne({email:id  },{
+          password:hash
+        },{new:true});
+        res.status(200).json(newU)
+      }
+     
+      
+    } else {
+      res.status(400).json({ message: 'email not exist' })
+      console.log('no email');
+    }
   }

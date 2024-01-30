@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { getUser } from '../../utils/UserRequest.js'
+import { getTheatre, getUser } from '../../utils/UserRequest.js'
 import { addMessage, getMessages } from '../../utils/MessageRequests.js';
 import './ChatBox.scss'
 import {format} from "timeago.js"
 import InputEmoji from 'react-input-emoji'
+import { messageAxiosIntercepter } from '../../hooks/messageAxios.jsx';
+import { vendorAxiosIntercepter } from '../../hooks/vendorAxios.jsx';
 const ChatBox = ({chat,currentUser,setSendMessage,receivedMessage}) => {
     // console.log("boxChat");
     // console.log(chat);
@@ -11,10 +13,13 @@ const ChatBox = ({chat,currentUser,setSendMessage,receivedMessage}) => {
     const [messages, setMessages] = useState([])
     const [newMessage, setNewMessage] = useState("")
     const scroll=useRef()
-   
+    const messageAxios=messageAxiosIntercepter()
+    const vendorAxios=vendorAxiosIntercepter()
     useEffect(() => {
-    if(receivedMessage!==null && receivedMessage.chatId==chat._id){
+    if(receivedMessage!==null && receivedMessage.chatId==chat?._id){
       setMessages([...messages,receivedMessage])
+      // console.log("recieMssg");
+      // console.log(receivedMessage);
     }
     }, [receivedMessage])
 
@@ -26,12 +31,14 @@ const ChatBox = ({chat,currentUser,setSendMessage,receivedMessage}) => {
         try
         {
             const {data} =await getUser(userId)
-            console.log("get");
-            console.log(data);
+            // console.log("get");
+            // console.log(data);
            if(data){
             setUserData(data)
            }else{
-
+            const {data} =await getTheatre(userId)
+            // export const getTheatre=(id)=> API.get(`/vendors/getDetails/${id}`)
+            setUserData(data)
            }
        
           
@@ -47,10 +54,20 @@ const ChatBox = ({chat,currentUser,setSendMessage,receivedMessage}) => {
     useEffect(() => {
         const fetchMessages = async () => {
           try {
-            const { data } = await getMessages(chat._id);
+            // const { data } = await getMessages(chat._id);
+            const res= await messageAxios.get(`/${chat._id}`)
+            .then((resp)=>{
+              console.log("remove facility resp");
+              console.log(resp);
+              setMessages(resp.data);
+             
+            }).catch((err)=>{
+              console.log("message loading error");
+             
+              console.log(err);
+            })
             // console.log("messageData");
             // console.log(data);
-            setMessages(data);
           } catch (error) {
             console.log(error);
           }
@@ -65,21 +82,41 @@ const ChatBox = ({chat,currentUser,setSendMessage,receivedMessage}) => {
 
 
       const handleSend=async(e)=>{
+     
           e.preventDefault()
+          if(newMessage!==null&&newMessage!==""){
         const message={
             senderId:currentUser,
             text: newMessage,
             chatId:chat._id
         }
         try {
-            const {data} = await addMessage(message)
-            setMessages([...messages,data])
-            setNewMessage("")
+            // const {data} = await addMessage(message)
+            const res= await messageAxios.post("/",{
+              senderId:currentUser,
+              text: newMessage,
+              chatId:chat._id
+            })
+            .then((resp)=>{
+              console.log("remove facility resp");
+              console.log(resp);
+           
+              setMessages([...messages,resp.data])
+              setNewMessage("")
+             
+            }).catch((err)=>{
+              console.log("message loading error");
+             
+              console.log(err);
+            })
+
+
         } catch (error) {
             console.log(error);
         }
         const receiverId= chat.members.find((id)=>id!==currentUser)
-        setSendMessage({...message,receiverId})     
+        setSendMessage({...message,receiverId})    
+      } 
         }
 
      useEffect(() => {
@@ -123,7 +160,7 @@ const ChatBox = ({chat,currentUser,setSendMessage,receivedMessage}) => {
           value={newMessage}
           onChange={handleChange}
           />
-          <div className="send-button button" onClick={handleSend}>
+          <div style={{paddingTop:"1%",fontWeight:"600"}} className="send-button button" onClick={handleSend}>
               Send
           </div>
         </div>

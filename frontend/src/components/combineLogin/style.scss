@@ -8,9 +8,10 @@
     align-items: center; /* This will work if the display property is set to flex */
     margin: auto;
     border-radius: 20px;
-    border: 3px solid;
-
-    border-color: bisque;
+    background-color: rgba(26, 26, 117, 0.497);
+    // border: 3px solid;
+    margin-bottom: 2rem;
+    // border-color: bisque;
 }
 .content-block{
     display: flex;
@@ -19,7 +20,7 @@
     margin-top: 10px;
     margin-bottom: 20px;
     border-radius: 20px;
-    background-color: rgba(32, 32, 70, 0.497);
+    background-color: rgb(79, 79, 81);
    
 }
 
@@ -28,22 +29,27 @@
 }
 .single-content-text{
     font-family: sans-serif;
-    font-weight: 500;
-    width: 100%;
+    font-weight: 600;
+    width: 20rem;
     border-radius: 5px;
     height: 25px;
     color: white;
     padding: 2%;
-    background-color: rgb(112, 112, 144);
+    // background-color: rgb(112, 112, 144);
     margin: 10px;
 }
 .single-content-button{
     width: 6rem;
     height: 2rem;
     border-radius: 10px;
-    font-weight: 500;
+    font-weight: 600;
     width: 50 px;
     color: white;
-    background-color: rgb(21, 70, 232);
+    background-color: rgb(12, 36, 113);
     
+}
+
+.combineLoginPic{
+    height: 100px;
+    width: "2rem";
 }

@@ -5,7 +5,8 @@ import bcrypt from "bcryptjs"
 import { errorHandler } from "../utils/error.js";
 import jwt from 'jsonwebtoken'
 import stripe from 'stripe';
-
+import crypto from 'crypto';
+import nodemailer from 'nodemailer'
 const stripeInstance = stripe('sk_test_51OFALpSB9eYCrjcG6KBzHYP0HYRw1pC5QH1u53yIAUkm6TkjstVL31Z7b1hkz86fc9yioq6DlKWJIH9ZJ8BtJiH800RnMnA1wJ');
 
 
@@ -24,7 +25,19 @@ const stripeInstance = stripe('sk_test_51OFALpSB9eYCrjcG6KBzHYP0HYRw1pC5QH1u53yI
 
      export const signup = async (req,res,next)=>{
     const {username,email,password} =req.body
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+     if(username==undefined||username==null||username.trim()==""||email==undefined||email==null||email.trim()==""||password==undefined||password==null||!emailRegex.test(email)){
+      return res.status(500).json({msg:"Something went wrong"})
+     }
+
     try {
+      const viewer= await User.findOne({email})
+
+      if(viewer){
+        console.log("viewer already exists");
+        console.log(viewer);
+        return res.status(401).json({msg:"Email already exists"})
+      }else{
       const salt= bcrypt.genSaltSync(10);
     const hash= bcrypt.hashSync(password,salt)
    
@@ -33,8 +46,8 @@ const stripeInstance = stripe('sk_test_51OFALpSB9eYCrjcG6KBzHYP0HYRw1pC5QH1u53yI
             username,email,password:hash
     })
 
-        console.log("NEW USER");
-        console.log(newUser);
+        // console.log("NEW USER");
+        // console.log(newUser);
 
     const savedUser=await newUser.save()
     
@@ -42,6 +55,7 @@ const stripeInstance = stripe('sk_test_51OFALpSB9eYCrjcG6KBzHYP0HYRw1pC5QH1u53yI
     console.log(savedUser);
         
         res.status(200).json(savedUser)
+  }
     } catch (error) {
        console.log("error");
        console.log(error);
@@ -53,42 +67,80 @@ const stripeInstance = stripe('sk_test_51OFALpSB9eYCrjcG6KBzHYP0HYRw1pC5QH1u53yI
 
  
 export const login = async (req,res,next)=>{
-    console.log(req.body);
+    // console.log(req.body);
 const {email,password} =req.body
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+if (emailRegex.test(email)&&password!==""&&password!==undefined) {
+    // Valid email
+   
+
   try {
     const viewer= await User.findOne({email})
     // console.log(viewer);
    if(viewer){
-
-    // if(req.body.displayPicture){
-    //   return  res.status(200).json({viewer,message:"login successful"})
-    // }
-
-    
-    
-    
+   
     const isPasswordCorrect= await bcrypt.compare(password,viewer.password);
    
     if(isPasswordCorrect){
+      if(viewer.isAccess){
         const token=jwt.sign({id:viewer._id},process.env.JWT_SECRET)
         const {password,...rest}=viewer._doc
         const expiryDate = new Date(Date.now()+3600000)
         // res.cookie('access_token',token,{httpOnly:true, expires:expiryDate}).status(200).json({rest,message:"login successful"})
         res.status(200).json({rest,token,message:"login successful"})
+      }else{
+        return res.status(401).json({msg:"Access blocked.Please contact admin"})
+      }
        }else{
-        next(errorHandler(401,"Invalid Credentials"))
+        // next(errorHandler(401,"Invalid Credentials"))
+        return res.status(401).json({msg:"Password is incorrect"})
     } 
 }else{
-    next(errorHandler(401,"Invalid Credentials"))
+    // next(errorHandler(401,"Invalid Credentials"))
+    return res.status(403).json({msg:"Invalid credential details"})
 }
    
   } catch (error) {
     // res.status(401).json({message:"login denied"})
-    next(error)
+    // next(error)
+    res.status(500).json({msg:"Something went wrong.Try again"})
+
 
    
   }
+}else{
+  return res.status(403).json({msg:"Invalid credential details"})
+}
+}
+export const updateUserStatus = async (req, res, next) => {
+  const store=req.body
+
+  console.log(req.body.isAccess);
+ 
+  try {
+      const user = await User.findOne({_id:req.params.id})
+    
   
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: {
+         
+          isAccess:req.body.isAccess,
+        
+            }
+      },
+      { new: true }
+    );
+    const { password, ...rest } = updatedUser._doc;
+    console.log("rest");
+    console.log(rest);
+  return  res.status(200).json(rest);
+  } catch (error) {
+    console.log("updationError");
+    console.log(error);
+  }
 }
 export const updateUser = async (req, res, next) => {
     // if (req.user.id !== req.params.id) {
@@ -96,7 +148,7 @@ export const updateUser = async (req, res, next) => {
     // }  console.log("req.body");
     const store=req.body
 
-    console.log(req.body);
+    // console.log(req.body.isAccess);
    
     try {
         const user = await User.findOne({_id:req.params.id})
@@ -111,14 +163,15 @@ export const updateUser = async (req, res, next) => {
             "address.locality": req.body.locality ||user.address.locality ,
             "address.district": req.body.district ||user.address.district ,
             "address.state": req.body.state ||user.address.state ,
+            isAccess:req.body.isAccess||user.isAccess,
             displayPicture:req.body.thumbnailPic||user.displayPicture,
               }
         },
         { new: true }
       );
       const { password, ...rest } = updatedUser._doc;
-      console.log("rest");
-      console.log(rest);
+      // console.log("rest");
+      // console.log(rest);
     return  res.status(200).json(rest);
     } catch (error) {
       console.log("updationError");
@@ -182,12 +235,19 @@ export const booking = async (req,res)=>{
   // console.log(vId);
   // const req.bill
 try {
-    
+    console.log("req.bill");
+    console.log(req.body.bill);
   const updateObject = {
     $push: {
       bookings: {...req.body,bill:req.body.bill},
-      [`bookedSlots.${date}`]: { $each: slot },
+      [`bookedSlots.${date}`]: { $each: slot }
       
+    },
+    $addToSet: {
+      viewers: uId
+    },
+    $inc:{
+      account_Bal:req.body.bill
     }
   };
   
@@ -196,17 +256,29 @@ try {
     updateObject,
     { new: true }
   );
-  
+  const typ=updatedVendor.account_Bal
+  // console.log("type offf");
+  // console.log(typeof(typ));
 // console.log("updatedVendor");
 // console.log(updatedVendor);
-  
-  var updatedUser = await User.findByIdAndUpdate(
-    uId,
-  {
-    $push: {"bookings": req.body},$inc: { account_Bal:-req.body.bill} 
-  },
-  { new: true }
-  );
+  if(req.body.pay=="wallet"){
+
+    var updatedUser = await User.findByIdAndUpdate(
+      uId,
+    {
+      $push: {"bookings": req.body},$inc: { account_Bal:-req.body.bill} 
+    },
+    { new: true }
+    );
+  }else{
+    var updatedUser = await User.findByIdAndUpdate(
+      uId,
+    {
+      $push: {"bookings": req.body}
+    },
+    { new: true }
+    );
+  }
 
  
 } catch (error) {
@@ -325,7 +397,9 @@ try {
       // console.log("vendorSlooots");
       // console.log(vendorSlots);
 
-    const vendor= await Vendor.findByIdAndUpdate(theatreId,{ $set: { bookedSlots:vendorSlots,bookings:vendBookings} },{ new: true });
+    const vendor= await Vendor.findByIdAndUpdate(theatreId,{ $set: { bookedSlots:vendorSlots,bookings:vendBookings}, $inc: {
+      account_Bal: -bill
+    } },{ new: true });
 
 
 
@@ -354,11 +428,14 @@ try {
   }
 
   export const userDet = async(req, res) => {
-    const _id=req.params.id
-   
+    const id=req.params.id
+   console.log("idddd");
+   console.log(id);
     try {
-        const userDetails= await User.findOne({_id})
+        const userDetails = await User.findById(id)
         res.status(200).json(userDetails)
+        console.log("userDetails");
+        console.log(userDetails);
 }catch(err){
     res.status(403).json({mssg:"no matching id"})
 }
@@ -424,7 +501,7 @@ try {
           product_data:{
             name:product.theatrename
           },
-          unit_amount:(product.bill*100)/product.seatsNeeded
+          unit_amount:Math.round((product.bill*100)/product.seatsNeeded)
         },
        quantity:product.seatsNeeded
       },
@@ -438,3 +515,100 @@ try {
 
   res.json({id:session.id,total:session.amount_total});
   }
+
+  const genarateOTP = async () => {
+    try {
+      const otps = Math.floor(1000 + Math.random() * 9000);
+      console.log(otps);
+      const otp = otps.toString();
+      const secret = crypto.createHash("sha256").update(otp).digest("hex");
+  
+      return { otp, secret };
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  
+  const sendemailotp = async (email, otp) => {
+    try {
+      const transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true,
+        auth: {
+          user: 'gadgetcartmailer@gmail.com',
+          pass: 'sylmlabgttnqbhqh',
+        },
+        tls: {
+          rejectUnauthorized: false
+        }
+      });
+  
+      const mailoptions = {
+        from: "gadgetcartmailer@gmail.com",
+        to: email,
+        subject: "for verification mail",
+        html: "<p>your otp is " + otp + "</p>",
+      };
+  
+      transporter.sendMail(mailoptions, (error, data) => {
+        if (error) {
+          console.log(error.message);
+        } else {
+          console.log("Email has been sent ", data.response);
+        }
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  export const sendOTP = async (req, res) => {
+    const email=req.body.userEmail
+    
+    const newUser = await User.findOne({ email });
+    if (newUser) {
+      console.log("newuser");
+      console.log(newUser);
+      const { otp, secret } = await genarateOTP();
+      // res.cookie("id", newUser._id, { maxAge: 500000, httpOnly: true });
+      // newUser.OTP = secret
+      // newUser.save()
+      await sendemailotp(email, otp);
+      
+      res.status(200).json(otp)
+    } else {
+      res.status(400).json({ message: 'email not exist' })
+      console.log('no email');
+    }
+  }
+
+  export const forgetPass = async (req, res) => {
+    const pass=req.body.newPass
+    const email=req.body.userEmail
+    console.log("forgetttt");
+    console.log(pass);
+    console.log(email);
+    var newUser = await User.findOne({ email });
+    if (newUser) {
+      // console.log(newUser);
+      if(newUser){
+        const id=newUser?.email
+        console.log("id");
+        console.log(id);
+        const salt= bcrypt.genSaltSync(10);
+        const hash= bcrypt.hashSync(pass,salt)
+        const newU = await User.updateOne({email:id  },{
+          password:hash
+        },{new:true});
+        res.status(200).json(newU)
+      }
+     
+      
+    } else {
+      res.status(400).json({ message: 'email not exist' })
+      console.log('no email');
+    }
+  }
+
+  

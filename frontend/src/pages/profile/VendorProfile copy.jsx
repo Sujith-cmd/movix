@@ -74,13 +74,6 @@ export default function Profile() {
   const navigate=useNavigate()
   const vendorAxios=vendorAxiosIntercepter()
 
-  const [pageNumber, setPageNumber] = useState(0);
-  const bookingsPerPage = 10;
-  const handlePageChange = ({ selected }) => {
-    setPageNumber(selected);
-  };
-const pageCount = Math.ceil(currentUser?.bookings?.length / bookingsPerPage );
-
 useEffect(() => {
   dispatch(getBasic())
 }, [])
@@ -713,12 +706,7 @@ useEffect(() => {
             {currentUser?.bookings?.length==0?(<div style={{color:"white",height:"800px",fontWeight:"600",display:"flex",alignItems:"center",justifyContent:"center"}}>No bookings to display</div>):("")}
             {
                     // currentUser?.bookings.map((book,index)=>{
-                    currentUser?.bookings?.
-                    slice(
-                      pageNumber * bookingsPerPage,
-                      (pageNumber + 1) * bookingsPerPage
-                    ).
-                    map((book,index)=>{
+                    currentUser?.bookings?.map((book,index)=>{
                       const times=book.slots.map((t)=>t+" AM ,")
                       // const day=new Date()
                       // const date=new Date(book.date)
@@ -770,24 +758,6 @@ useEffect(() => {
         
 
           </div>
-               <ReactPaginate
-                previousLabel={
-                  <button className="myButton">
-                    Previous
-                  </button>
-                }
-                nextLabel={
-                  <button className="myButton">
-                    Next
-                  </button>
-                }
-                pageCount={pageCount}
-                onPageChange={handlePageChange}
-                containerClassName="container"
-                activeClassName="active"
-                pageLinkClassName="pageLink "
-                breakLinkClassName="breakLink "
-              />
 
         
 

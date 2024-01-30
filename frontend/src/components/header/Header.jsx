@@ -15,6 +15,7 @@ const Header = () => {
     const [lastScrollY, setLastScrollY] = useState(0);
     const [mobileMenu, setMobileMenu] = useState(false);
     const [query, setQuery] = useState("");
+    const [allReadyUser, setAllReadyUser] = useState(true);
     const [showSearch, setShowSearch] = useState("");
     const navigate = useNavigate();
     const location = useLocation();
@@ -23,7 +24,20 @@ const Header = () => {
     const dispatch=useDispatch()
     useEffect(() => {
         window.scrollTo(0, 0);
-    }, [location]);
+        // console.log("location");
+        // console.log(location);
+        if(location.pathname=='/vendorSignIn'||location.pathname=='/adminSignIn'||location.pathname=='/userSignin'){
+            if(currentUser?._id){
+
+                setAllReadyUser(false)
+            }
+        }else{
+            if(currentUser?._id){
+
+                setAllReadyUser(true)
+            }
+        }
+    }, [location,currentUser]);
 
     const controlNavbar = () => {
         if (window.scrollY > 200) {
@@ -123,13 +137,13 @@ const Header = () => {
                     >
                         Game Stations
                     </li>
-                    <li className="menuItem">
+                    {/* <li className="menuItem">
                         <HiOutlineSearch onClick={openSearch} />
-                    </li>
+                    </li> */}
                 </ul>
 
                 <div className="mobileMenuItems">
-                    <HiOutlineSearch onClick={openSearch} />
+                    {/* <HiOutlineSearch onClick={openSearch} /> */}
                     {mobileMenu ? (
                         <VscChromeClose onClick={() => setMobileMenu(false)} />
                     ) : (
@@ -146,7 +160,15 @@ const Header = () => {
                     </>
                     }
                 </div>
-               {currentUser && <div className="headerName" onClick={() => navigate("/userProfile")}>{currentUser.username}</div>}
+
+              {allReadyUser?(
+                  
+                  <div >
+                 {currentUser?.Role==0?(<div style={{display:"flex",alignItems:"center",gap:"1rem"}} className="headerName" onClick={() => navigate("/userProfile")}><span><img style={{height:"30px",width:"30px",borderRadius:"15px"}} src={currentUser.displayPicture?currentUser.displayPicture:"https://firebasestorage.googleapis.com/v0/b/screenshare-1c657.appspot.com/o/1706451145400avatar-3814049_1280.jpg?alt=media&token=08fc954a-5fec-48e4-90fe-2a7e125e8b33"} alt="" /></span><span>{currentUser?.username}</span></div>):("")}
+               {currentUser?.Role==1?(<div style={{display:"flex",alignItems:"center",gap:"1rem"}} className="headerName" onClick={() => navigate("/profile")}>{currentUser?.username}</div>):("")}
+               {currentUser?.Role==4?(<div style={{display:"flex",alignItems:"center",gap:"1rem"}} className="headerName" onClick={() => navigate("/adminHome")}>{currentUser?.adminName}</div>):("")}
+                </div>):("")}
+             
             </ContentWrapper>
             {showSearch && (
                 <div className="searchBar">
